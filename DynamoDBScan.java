@@ -16,9 +16,11 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
  * This code expects that you have AWS credentials set up per:
  * http://docs.aws.amazon.com/java-sdk/latest/developer-guide/setup-credentials.html
  */
-public class DynamoDBScan implements RequestHandler<Map<String,String>, String> {
+public class DynamoDBScanSolution implements RequestHandler<Map<String,String>, String> {
 
-    static String tableName = "<FMI1>";
+    private static String tableName = "<FMI1>";
+    private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withRegion("us-east-1").build();
+
 
     @Override
     public String handleRequest(Map<String,String> event, Context context)
@@ -27,7 +29,6 @@ public class DynamoDBScan implements RequestHandler<Map<String,String>, String> 
     }
 
     private static String findAllItems() {
-        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
         DynamoDB dynamoDB = new DynamoDB(client);
         Table table = dynamoDB.getTable(tableName);
 
